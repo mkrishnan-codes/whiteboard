@@ -3,6 +3,8 @@
 A quiet, minimal canvas for drawing and erasing. Built with React, TypeScript,
 and Vite.
 
+**Live:** [board.manuk.win](https://board.manuk.win)
+
 ## Features
 
 - Freehand pen and eraser with smooth pointer input
@@ -20,7 +22,7 @@ No backend, no accounts, no network calls. Fonts are self-hosted.
 
 ## Install as an app
 
-On a hosted build:
+Open [board.manuk.win](https://board.manuk.win) in a supported browser:
 
 - **Chrome/Edge:** use the install icon in the address bar.
 - **iOS Safari:** Share → Add to Home Screen.
