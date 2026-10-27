@@ -1,9 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { registerSW } from 'virtual:pwa-register'
 import '@fontsource-variable/instrument-sans'
 import '@fontsource/instrument-serif/latin-400-italic.css'
 import './index.css'
 import App from './App.tsx'
+
+registerSW({ immediate: true })
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -22,6 +22,7 @@ type ToolbarProps = {
   onColorChange: (color: string) => void
   onBackgroundChange: (color: string) => void
   onUndo: () => void
+  onDownload: () => void
   onClear: () => void
 }
 
@@ -45,6 +46,7 @@ export function Toolbar({
   onColorChange,
   onBackgroundChange,
   onUndo,
+  onDownload,
   onClear,
 }: ToolbarProps) {
   const [panel, setPanel] = useState<Panel>(null)
@@ -177,6 +179,16 @@ export function Toolbar({
           <button
             type="button"
             className="tool-button"
+            aria-label="Download board as PNG"
+            title="Download image (PNG)"
+            disabled={!hasContent}
+            onClick={onDownload}
+          >
+            <DownloadIcon />
+          </button>
+          <button
+            type="button"
+            className="tool-button"
             aria-label="Clear board"
             title="Clear board"
             disabled={!hasContent}
@@ -305,6 +317,16 @@ function TrashIcon() {
       <path d="M9 7V5h6v2" />
       <path d="m6 7 1 13h10l1-13" />
       <path d="M10 11v5M14 11v5" />
+    </svg>
+  )
+}
+
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <path d="m7 10 5 5 5-5" />
+      <path d="M12 15V3" />
     </svg>
   )
 }

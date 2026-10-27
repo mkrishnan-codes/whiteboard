@@ -254,6 +254,41 @@ export function Whiteboard() {
     saveBoard({ tool, color, background }, [])
   }, [background, color, redraw, tool])
 
+  const download = useCallback(() => {
+    const source = canvasRef.current
+    if (!source || strokesRef.current.length === 0) {
+      return
+    }
+
+    const output = document.createElement('canvas')
+    output.width = source.width
+    output.height = source.height
+
+    const context = output.getContext('2d')
+    if (!context) {
+      return
+    }
+
+    context.fillStyle = background
+    context.fillRect(0, 0, output.width, output.height)
+    context.drawImage(source, 0, 0)
+
+    output.toBlob((blob) => {
+      if (!blob) {
+        return
+      }
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = exportFileName(new Date())
+      document.body.append(link)
+      link.click()
+      link.remove()
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+    }, 'image/png')
+  }, [background])
+
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null
@@ -329,8 +364,16 @@ export function Whiteboard() {
         onColorChange={handleColorChange}
         onBackgroundChange={handleBackgroundChange}
         onUndo={undo}
+        onDownload={download}
         onClear={clear}
       />
     </main>
   )
+}
+
+function exportFileName(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, '0')
+  const day = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+  const time = `${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`
+  return `whiteboard-${day}-${time}.png`
 }
